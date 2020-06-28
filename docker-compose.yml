@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+
+  store-api:
+    build:
+      context: .
+      dockerfile: $PWD/Dockerfile
+    ports:
+      - "8080:8080"
+    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs//store-api-1.0.jar"]
+
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d

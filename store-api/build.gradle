@@ -1,0 +1,38 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group = 'com.helloworld'
+version = System.env.PROJECT_VERSION == null ? '1.0' : System.env.PROJECT_VERSION
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.19'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+jar {
+    baseName = rootProject.name
+    version = version
+    manifest {
+        attributes(
+                'Implementation-Title': rootProject.name,
+                'Implementation-Version': version
+        )
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
