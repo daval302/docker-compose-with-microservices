@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 public class Checkout
 {
     @Id
-    @Column(name = "item")
+    @Column(name = "id")
     private Integer id;
 
     @Basic
@@ -24,8 +26,12 @@ public class Checkout
     @Column(name = "ammount")
     private double ammount;
 
-    @OneToOne
-    @JoinColumn(name = "item", referencedColumnName = "id", nullable = false)
+    @Column(name = "itemid")
+    private Integer itemid;
+
+    @ManyToOne
+    @MapsId("itemid")
+    @JoinColumn(name = "itemid", referencedColumnName = "id", nullable = false)
     private Item item;
 
     public Integer getId()

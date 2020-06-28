@@ -4,8 +4,9 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -23,8 +24,8 @@ public class Item
     @Column(name = "price")
     private double price;
 
-    @OneToOne(mappedBy = "item")
-    private Checkout checkout;
+    @OneToMany(mappedBy = "item")
+    private Set<Checkout> checkouts;
 
     public Integer getId()
     {
@@ -56,13 +57,13 @@ public class Item
         this.price = price;
     }
 
-    public Checkout getCheckout()
+    public Set<Checkout> getCheckouts()
     {
-        return checkout;
+        return checkouts;
     }
 
-    public void setCheckout(Checkout checkoutById)
+    public void setCheckouts(Set<Checkout> checkouts)
     {
-        this.checkout = checkoutById;
+        this.checkouts = checkouts;
     }
 }

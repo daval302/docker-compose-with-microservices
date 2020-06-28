@@ -13,10 +13,11 @@ CREATE TABLE IF NOT EXISTS `items`
 
 CREATE TABLE IF NOT EXISTS `checkouts`
 (
-    `item`       INT unsigned NOT NULL PRIMARY KEY,
+    `id`       INT unsigned NOT NULL PRIMARY KEY,
     `quantity`  INT NOT NULL,
     `ammount`   float NOT NULL,
-    FOREIGN KEY (item) REFERENCES items (id)
+    `itemid`   INT unsigned NOT NULL,
+    FOREIGN KEY (itemid) REFERENCES items (id)
 );
 
 
@@ -31,4 +32,10 @@ VALUES (1, "Cereals", 3.40),
        (8, "Sweets", 1.20),
        (9, "Sugar", 0.80),
        (10, "milk", 1.30);
+
+INSERT INTO checkouts
+VALUES (1, 1, 3.40, 1),
+       (2, 1, 6.80, 3),
+       (3, 1, 2.30, 7),
+       (4, 2, 1.60, 9);
 
