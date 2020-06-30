@@ -1,0 +1,11 @@
+FROM openjdk:8
+
+WORKDIR /app
+
+COPY payment-api/src /app/src
+COPY payment-api/gradle /app/gradle
+COPY payment-api/build.gradle /app/build.gradle
+COPY payment-api/settings.gradle /app/settings.gradle
+COPY payment-api/gradlew /app/gradlew
+
+RUN ./gradlew clean build -x test

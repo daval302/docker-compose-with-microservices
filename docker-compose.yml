@@ -5,10 +5,18 @@ services:
   store-api:
     build:
       context: .
-      dockerfile: $PWD/Dockerfile
+      dockerfile: $PWD/Dockerfile_store-api
     ports:
-      - "8080:8080"
-    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs//store-api-1.0.jar"]
+      - "8081:8080"
+    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs/store-api-1.0.jar"]
+
+  payment-api:
+    build:
+      context: .
+      dockerfile: $PWD/Dockerfile_payment-api
+    ports:
+      - "8082:8080"
+    command: ["java", "-jar", "/app/build/libs/payment-api-1.0.jar"]
 
   db:
     image: mysql

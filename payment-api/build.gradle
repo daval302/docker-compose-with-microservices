@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.helloworld.paymentapi'
-version = '0.0.1-SNAPSHOT'
+version = System.env.PROJECT_VERSION == null ? '1.0' : System.env.PROJECT_VERSION
 sourceCompatibility = '1.8'
 
 repositories {
@@ -17,6 +17,17 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+jar {
+    baseName = rootProject.name
+    version = version
+    manifest {
+        attributes(
+                'Implementation-Title': rootProject.name,
+                'Implementation-Version': version
+        )
     }
 }
 
