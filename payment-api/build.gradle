@@ -4,7 +4,6 @@ plugins {
     id 'java'
 }
 
-group = 'com.helloworld.paymentapi'
 version = System.env.PROJECT_VERSION == null ? '1.0' : System.env.PROJECT_VERSION
 sourceCompatibility = '1.8'
 
