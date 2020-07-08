@@ -1,4 +1,4 @@
-package com.helloworld.storeapi.data.model;
+package com.helloworld.api.data.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,7 +25,7 @@ public class Item
 
     @Basic
     @Column(name = "price")
-    private double price;
+    private float price;
 
     @OneToMany(mappedBy = "item")
     private Set<Checkout> checkouts;
@@ -50,12 +50,12 @@ public class Item
         this.name = name;
     }
 
-    public double getPrice()
+    public float getPrice()
     {
         return price;
     }
 
-    public void setPrice(double price)
+    public void setPrice(float price)
     {
         this.price = price;
     }

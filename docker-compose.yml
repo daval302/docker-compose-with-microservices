@@ -2,13 +2,13 @@ version: "2"
 
 services:
 
-  store-api:
+  data-api:
     build:
       context: .
-      dockerfile: $PWD/Dockerfile_store-api
+      dockerfile: $PWD/Dockerfile_data-api
     ports:
       - "8081:8080"
-    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs/store-api-1.0.jar"]
+    command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs/data-api-1.0.jar"]
 
   payment-api:
     build:

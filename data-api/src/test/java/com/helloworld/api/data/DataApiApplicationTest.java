@@ -1,13 +1,14 @@
-package com.helloworld.storeapi;
+package com.helloworld.api.data;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StoreApiApplicationTests {
+class DataApiApplicationTest
+{
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

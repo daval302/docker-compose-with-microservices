@@ -1,4 +1,4 @@
-package com.helloworld.storeapi.data.model;
+package com.helloworld.api.data.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,7 +26,7 @@ public class Checkout
 
     @Basic
     @Column(name = "ammount")
-    private double ammount;
+    private float ammount;
 
     @Column(name = "itemid")
     private Integer itemid;
@@ -57,14 +56,24 @@ public class Checkout
         this.quantity = quantity;
     }
 
-    public double getAmmount()
+    public float getAmmount()
     {
         return ammount;
     }
 
-    public void setAmmount(double ammount)
+    public void setAmmount(float ammount)
     {
         this.ammount = ammount;
+    }
+
+    public Integer getItemid()
+    {
+        return itemid;
+    }
+
+    public void setItemid(Integer itemid)
+    {
+        this.itemid = itemid;
     }
 
     public Item getItem()
