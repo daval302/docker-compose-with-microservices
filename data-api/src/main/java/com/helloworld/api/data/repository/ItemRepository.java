@@ -1,6 +1,6 @@
-package com.helloworld.storeapi.data.repository;
+package com.helloworld.api.data.repository;
 
-import com.helloworld.storeapi.data.model.Item;
+import com.helloworld.api.data.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
