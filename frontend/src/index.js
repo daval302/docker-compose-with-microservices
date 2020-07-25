@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { combineReducers } from "redux";
 import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer'
-import dto from './reducers/paymentRequestReducer'
+import paymentRequestReducer from './reducers/paymentRequestReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -16,7 +16,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store =  createStore(
     combineReducers({ 
       user: userReducer,
-      dto
+      payment: paymentRequestReducer
     }),
     composeEnhancers(
         applyMiddleware(thunk)
