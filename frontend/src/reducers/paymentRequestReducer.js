@@ -1,11 +1,10 @@
 import axios from "axios"
-
+import { generatePaymentRquest } from '../utils/helpers'
 
 const REQUEST_ITEMS = "user/REQUEST_ITEMS"
 const RECEIVED_ITEMS = "user/RECEIVED_ITEMS"
 
 const paymentRequestDTO = {
-    itemId: -1,
     name: "",
     price: 0.0,
     quantity: 0
@@ -61,7 +60,7 @@ export const getItems = () => (dispatch, getState) => {
         .then(response => {
             let items = response.data._embedded.items
             items.forEach((element, index) => {
-                const id  = element._links.self.href.substr(element._links.self.href.length-1)
+                const id = element._links.self.href.substr(element._links.self.href.length - 1)
                 items[index] = {
                     id,
                     name: element['name'],
@@ -77,9 +76,3 @@ export const getItems = () => (dispatch, getState) => {
         });
 
 }
-
-// TODO
-export const generatePaymentRquest = () => ({
-    // fetch items first 
-    // generate payment request then
-})
