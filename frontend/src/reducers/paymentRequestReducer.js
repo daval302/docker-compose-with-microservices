@@ -13,6 +13,7 @@ const paymentRequestDTO = {
 
 export default (state = {
     dto: paymentRequestDTO,
+    items: [],
     fetching: false
 }, action) => {
 
@@ -28,6 +29,7 @@ export default (state = {
         case RECEIVED_ITEMS:
             return {
                 ...state,
+                items: action.payload,
                 fetching: false
             }
 
@@ -56,7 +58,20 @@ export const getItems = () => (dispatch, getState) => {
         method: 'GET',
         url: "http://localhost:8081/items"
     })
-        .then(response => dispatch(receivedItems(response.data)))
+        .then(response => {
+            let items = response.data._embedded.items
+            items.forEach((element, index) => {
+                const id  = element._links.self.href.substr(element._links.self.href.length-1)
+                items[index] = {
+                    id,
+                    name: element['name'],
+                    price: element['price']
+                }
+            });
+
+            console.log("Received " + items.length + " items")
+            dispatch(receivedItems(items))
+        })
         .catch(error => {
             console.log(error)
         });
