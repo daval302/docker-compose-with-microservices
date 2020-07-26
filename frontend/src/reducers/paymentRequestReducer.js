@@ -15,7 +15,8 @@ export default (state = {
     dto: paymentRequestDTO,
     items: [],
     fetching: false,
-    requesting: false
+    requesting: false,
+    requests: []
 }, action) => {
 
     switch (action.type) {
@@ -34,6 +35,7 @@ export default (state = {
             }
 
         case SENDING_PAYMENT_REQUETS:
+            state.requests.push(action.payload)
             return {
                 ...state,
                 requesting: true
@@ -91,12 +93,40 @@ export const getItems = () => (dispatch, getState) => {
 export const startGeneratingUserActions = () => (dispatch, getState) => {
 
     setInterval(() => {
-        
+
         // Notify the the state of sending payment requests
         const result = generatePaymentRquest(getState().payment['items'])
-        dispatch(sendingPaymentRequests(result))
 
-        // TODO: axios to send payment to payment-api
+        // TODO: axios save checkout with state PENDING
+        result.forEach((elem, index) => {
+            // console.log(elem)
+            dispatch(sendingPaymentRequests(elem))
+            axios({
+                method: "POST",
+                url: "http://localhost:8081/checkouts",
+                data: {
+                    itemid: elem.id,
+                    quantity: elem.quantity,
+                    state: "PENDING",
+                    ammount: elem.price * elem.quantity
+                }
+            })
+                .then(response => {
+                    // TODO
+                    // checkout has been registered as PANDING
+                    // now we need to request payment-api to do the payment
+                    // response back and update store api with a checkout PAID state
+                })
+                .catch(error => {
+                    // usually error 409 conflict TODO: investigate
+                    console.log(error)
+                })
+        })
+
+
+
+        // TODO: axios payment request to pay-api
+
 
     }, 1000);
 }

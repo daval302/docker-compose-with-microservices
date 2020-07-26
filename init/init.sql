@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS `items`
 
 CREATE TABLE IF NOT EXISTS `checkouts`
 (
-    `id`       INT unsigned NOT NULL PRIMARY KEY,
+    `id`       INT unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `state`    VARCHAR(10),
     `quantity`  INT NOT NULL,
     `ammount`   float NOT NULL,
     `itemid`   INT unsigned NOT NULL,
@@ -34,8 +35,8 @@ VALUES (1, "Cereals", 3.40),
        (10, "milk", 1.30);
 
 INSERT INTO checkouts
-VALUES (1, 1, 3.40, 1),
-       (2, 1, 6.80, 3),
-       (3, 1, 2.30, 7),
-       (4, 2, 1.60, 9);
+VALUES (1, "PENDING",1, 3.40, 1),
+       (2, "PENDING",1, 6.80, 3),
+       (3, "PAID", 1, 2.30, 7),
+       (4, "PAID", 2, 1.60, 9);
 

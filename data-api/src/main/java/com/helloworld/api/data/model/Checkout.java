@@ -21,6 +21,10 @@ public class Checkout
     private Integer id;
 
     @Basic
+    @Column(name = "state")
+    private String state;
+
+    @Basic
     @Column(name = "quantity")
     private int quantity;
 
@@ -39,6 +43,16 @@ public class Checkout
     public Integer getId()
     {
         return id;
+    }
+
+    public String getState()
+    {
+        return state;
+    }
+
+    public void setState(String state)
+    {
+        this.state = state;
     }
 
     public void setId(Integer id)

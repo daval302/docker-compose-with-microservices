@@ -33,6 +33,11 @@ const User = ({ dispatch, user, payment }) => {
             {payment.items.length > 0 &&
                 <input type="button" value="Start generating user actions" onClick={handleGeneratePaymentRequest} />
             }
+            {payment.requests.length > 0 &&
+                payment.requests.map(element =>
+                <p>Paying {element.quantity} {element.name}</p>
+                )
+            }
 
         </div>
     )
