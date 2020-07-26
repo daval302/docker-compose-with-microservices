@@ -24,6 +24,13 @@ export default (state = {
                 fetching: true
             }
 
+        // add payload
+        case RECEIVED_ITEMS:
+            return {
+                ...state,
+                fetching: false
+            }
+
         default: return state
 
     }
@@ -35,8 +42,9 @@ export const fetchingFetchingItems = () => ({
     type: REQUEST_ITEMS
 })
 
-export const receivedItems = () => ({
-    type: RECEIVED_ITEMS
+export const receivedItems = data => ({
+    type: RECEIVED_ITEMS,
+    payload: data
 })
 
 export const getItems = () => (dispatch, getState) => {
@@ -44,10 +52,14 @@ export const getItems = () => (dispatch, getState) => {
     // Signal to the view comonent that we are fetching data
     dispatch(fetchingFetchingItems())
 
-    // return axios.get("http://localhost:8081/items")
-    //     .then(response => dispatch(receivedUserDetails(response.data)))
-    //     // TODO("Error handling")
-    //     .catch(error => console.log(error));
+    return axios({
+        method: 'GET',
+        url: "http://localhost:8081/items"
+    })
+        .then(response => dispatch(receivedItems(response.data)))
+        .catch(error => {
+            console.log(error)
+        });
 
 }
 
