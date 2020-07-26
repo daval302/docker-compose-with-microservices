@@ -3,6 +3,7 @@ import { generatePaymentRquest } from '../utils/helpers'
 
 const REQUEST_ITEMS = "user/REQUEST_ITEMS"
 const RECEIVED_ITEMS = "user/RECEIVED_ITEMS"
+const SENDING_PAYMENT_REQUETS = "user/SENDING_PAYMENT_REQUETS"
 
 const paymentRequestDTO = {
     name: "",
@@ -13,7 +14,8 @@ const paymentRequestDTO = {
 export default (state = {
     dto: paymentRequestDTO,
     items: [],
-    fetching: false
+    fetching: false,
+    requesting: false
 }, action) => {
 
     switch (action.type) {
@@ -24,12 +26,17 @@ export default (state = {
                 fetching: true
             }
 
-        // add payload
         case RECEIVED_ITEMS:
             return {
                 ...state,
                 items: action.payload,
                 fetching: false
+            }
+
+        case SENDING_PAYMENT_REQUETS:
+            return {
+                ...state,
+                requesting: true
             }
 
         default: return state
@@ -45,6 +52,11 @@ export const fetchingFetchingItems = () => ({
 
 export const receivedItems = data => ({
     type: RECEIVED_ITEMS,
+    payload: data
+})
+
+export const sendingPaymentRequests = data => ({
+    type: SENDING_PAYMENT_REQUETS,
     payload: data
 })
 
@@ -74,5 +86,17 @@ export const getItems = () => (dispatch, getState) => {
         .catch(error => {
             console.log(error)
         });
+}
 
+export const startGeneratingUserActions = () => (dispatch, getState) => {
+
+    setInterval(() => {
+        
+        // Notify the the state of sending payment requests
+        const result = generatePaymentRquest(getState().payment['items'])
+        dispatch(sendingPaymentRequests(result))
+
+        // TODO: axios to send payment to payment-api
+
+    }, 1000);
 }
