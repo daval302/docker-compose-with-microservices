@@ -16,11 +16,10 @@ const User = ({ dispatch, user, payment }) => {
     // TODO - handle with dispatch event -> state 
     const handleGeneratePaymentRequest = e => {
         e.preventDefault()
-        if (!payment.generating) 
+        if (!payment.generating)
             dispatch(startGeneratingUserActions())
         else
             dispatch(stopGenerating())
-        payment.generating = !payment.generating
     }
 
     return (
@@ -34,11 +33,16 @@ const User = ({ dispatch, user, payment }) => {
                 <h2>Loading...</h2>
             }
             {payment.items.length > 0 &&
-                <input type="button" value="Start generating user actions" onClick={handleGeneratePaymentRequest} />
+                (
+                    !payment.generating &&
+                    <input type="button" value="Start generating user actions" onClick={handleGeneratePaymentRequest} />
+                    ||
+                    <input type="button" value="Stop generating user actions" onClick={handleGeneratePaymentRequest} />
+                )
             }
-            {payment.generating &&
+            {/* {payment.generating &&
                 <input type="button" value="Stop generating user actions" onClick={handleGeneratePaymentRequest} />
-            }
+            } */}
             {payment.requests.length > 0 &&
                 payment.requests.map(element =>
                     <p>Paying {element.quantity} {element.name}</p>

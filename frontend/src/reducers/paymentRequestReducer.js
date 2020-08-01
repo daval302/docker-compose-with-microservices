@@ -5,6 +5,7 @@ const REQUEST_ITEMS = "user/REQUEST_ITEMS"
 const RECEIVED_ITEMS = "user/RECEIVED_ITEMS"
 const SENDING_PAYMENT_REQUETS = "user/SENDING_PAYMENT_REQUETS"
 const GENERATING_PAYMENT_REQUESTS = "user/GENERATING_PAYMENT_REQUESTS"
+const STOPPED_GENERATING = "user/STOPPED_GENERATING"
 
 const paymentRequestDTO = {
     name: "",
@@ -51,6 +52,12 @@ export default (state = {
                 generating: true
             }
 
+        case STOPPED_GENERATING:
+            return{
+                ...state,
+                generating: false
+            }
+
         default: return state
 
     }
@@ -76,8 +83,11 @@ export const generatingPayments = () => ({
     type: GENERATING_PAYMENT_REQUESTS
 })
 
-export const stopGenerating = () => (dispatch, getState) => {
+export const stopGenerating = () => {
     clearInterval(generatingInterval)
+    return{
+        type: STOPPED_GENERATING
+    }
 }
 
 export const getItems = () => (dispatch, getState) => {
@@ -92,7 +102,7 @@ export const getItems = () => (dispatch, getState) => {
         .then(response => {
             let items = response.data._embedded.items
             items.forEach((element, index) => {
-                const id = element._links.self.href.substr(element._links.self.href.length - 1)
+                const id = /\d+$/.exec(element._links.self.href)[0]
                 items[index] = {
                     id,
                     name: element['name'],
@@ -112,11 +122,6 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
 
     generatingInterval = setInterval(() => {
 
-        /**
-         * TODO: bag in Store API: for some random checkouts error message: 
-         * Cannot add or update a child row: a foreign key constraint fails 
-         * (`store`.`checkouts`, CONSTRAINT `checkouts_ibfk_1` FOREIGN KEY (`itemid`) REFERENCES `items` (`id`))
-         */
         const randomPaymentRequests = generateNPaymentRquests(5, getState().payment['items'])
 
         // Store API request to save checkout with state PENDING
@@ -139,7 +144,6 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                     // response back and update store api with a checkout PAID state
                 })
                 .catch(error => {
-                    // usually error 409 conflict TODO: investigate
                     //console.log(error)
                 })
         })
