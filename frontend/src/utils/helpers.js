@@ -4,8 +4,8 @@ export const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const generatePaymentRquest = items => (
-    Array(getRandomInt(0, 5)).fill().map((_, i) => {
+export const generateNPaymentRquests = (number, items) => (
+    Array(getRandomInt(0, number)).fill().map((_, i) => {
         const randomItem = items[getRandomInt(0, items.length - 1)]
         return {
             id: randomItem['id'],

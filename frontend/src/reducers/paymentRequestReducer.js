@@ -1,9 +1,10 @@
 import axios from "axios"
-import { generatePaymentRquest } from '../utils/helpers'
+import { generateNPaymentRquests } from '../utils/helpers'
 
 const REQUEST_ITEMS = "user/REQUEST_ITEMS"
 const RECEIVED_ITEMS = "user/RECEIVED_ITEMS"
 const SENDING_PAYMENT_REQUETS = "user/SENDING_PAYMENT_REQUETS"
+const GENERATING_PAYMENT_REQUESTS = "user/GENERATING_PAYMENT_REQUESTS"
 
 const paymentRequestDTO = {
     name: "",
@@ -11,11 +12,14 @@ const paymentRequestDTO = {
     quantity: 0
 }
 
+var generatingInterval
+
 export default (state = {
     dto: paymentRequestDTO,
     items: [],
     fetching: false,
     requesting: false,
+    generating: false,
     requests: []
 }, action) => {
 
@@ -41,6 +45,12 @@ export default (state = {
                 requesting: true
             }
 
+        case GENERATING_PAYMENT_REQUESTS:
+            return {
+                ...state,
+                generating: true
+            }
+
         default: return state
 
     }
@@ -61,6 +71,14 @@ export const sendingPaymentRequests = data => ({
     type: SENDING_PAYMENT_REQUETS,
     payload: data
 })
+
+export const generatingPayments = () => ({
+    type: GENERATING_PAYMENT_REQUESTS
+})
+
+export const stopGenerating = () => (dispatch, getState) => {
+    clearInterval(generatingInterval)
+}
 
 export const getItems = () => (dispatch, getState) => {
 
@@ -92,14 +110,17 @@ export const getItems = () => (dispatch, getState) => {
 
 export const startGeneratingUserActions = () => (dispatch, getState) => {
 
-    setInterval(() => {
+    generatingInterval = setInterval(() => {
 
-        // Notify the the state of sending payment requests
-        const result = generatePaymentRquest(getState().payment['items'])
+        /**
+         * TODO: bag in Store API: for some random checkouts error message: 
+         * Cannot add or update a child row: a foreign key constraint fails 
+         * (`store`.`checkouts`, CONSTRAINT `checkouts_ibfk_1` FOREIGN KEY (`itemid`) REFERENCES `items` (`id`))
+         */
+        const randomPaymentRequests = generateNPaymentRquests(5, getState().payment['items'])
 
-        // TODO: axios save checkout with state PENDING
-        result.forEach((elem, index) => {
-            // console.log(elem)
+        // Store API request to save checkout with state PENDING
+        randomPaymentRequests.forEach((elem, _) => {
             dispatch(sendingPaymentRequests(elem))
             axios({
                 method: "POST",
@@ -119,14 +140,15 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                 })
                 .catch(error => {
                     // usually error 409 conflict TODO: investigate
-                    console.log(error)
+                    //console.log(error)
                 })
         })
 
-
-
         // TODO: axios payment request to pay-api
 
-
     }, 1000);
+
+    // Notify User component: sending requests every seconds
+    dispatch(generatingPayments())
+
 }

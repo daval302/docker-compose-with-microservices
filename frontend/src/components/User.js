@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './User.css'
-import { getItems, startGeneratingUserActions } from '../reducers/paymentRequestReducer'
+import { getItems, startGeneratingUserActions, stopGenerating } from '../reducers/paymentRequestReducer'
 
 const User = ({ dispatch, user, payment }) => {
 
@@ -16,9 +16,12 @@ const User = ({ dispatch, user, payment }) => {
     // TODO - handle with dispatch event -> state 
     const handleGeneratePaymentRequest = e => {
         e.preventDefault()
-        dispatch(startGeneratingUserActions())
+        if (!payment.generating) 
+            dispatch(startGeneratingUserActions())
+        else
+            dispatch(stopGenerating())
+        payment.generating = !payment.generating
     }
-
 
     return (
         <div className="card">
@@ -33,9 +36,12 @@ const User = ({ dispatch, user, payment }) => {
             {payment.items.length > 0 &&
                 <input type="button" value="Start generating user actions" onClick={handleGeneratePaymentRequest} />
             }
+            {payment.generating &&
+                <input type="button" value="Stop generating user actions" onClick={handleGeneratePaymentRequest} />
+            }
             {payment.requests.length > 0 &&
                 payment.requests.map(element =>
-                <p>Paying {element.quantity} {element.name}</p>
+                    <p>Paying {element.quantity} {element.name}</p>
                 )
             }
 
