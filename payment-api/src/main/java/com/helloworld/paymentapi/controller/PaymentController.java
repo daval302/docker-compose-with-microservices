@@ -1,6 +1,8 @@
 package com.helloworld.paymentapi.controller;
 
 import com.helloworld.paymentapi.data.PaymentRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import java.util.HashMap;
 @RequestMapping(path = "/payment-api", consumes = MediaType.APPLICATION_JSON_VALUE)
 public class PaymentController
 {
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentController.class);
 
     @GetMapping
     public HashMap<String, String> welcome()
@@ -25,8 +28,10 @@ public class PaymentController
     }
 
     @PostMapping(value = "/pay")
-    public void pay(@RequestBody PaymentRequest paymentRequest)
+    public String pay(@RequestBody PaymentRequest paymentRequest)
     {
         // TODO - simulate external service payment call and callback
+        LOG.info("Requested to move PENDING to PAID for checkoutId: {}", paymentRequest.getCheckoutId());
+        return "NOT IMPLEMENTED YET";
     }
 }

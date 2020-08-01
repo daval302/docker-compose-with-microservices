@@ -53,7 +53,7 @@ export default (state = {
             }
 
         case STOPPED_GENERATING:
-            return{
+            return {
                 ...state,
                 generating: false
             }
@@ -85,7 +85,7 @@ export const generatingPayments = () => ({
 
 export const stopGenerating = () => {
     clearInterval(generatingInterval)
-    return{
+    return {
         type: STOPPED_GENERATING
     }
 }
@@ -140,8 +140,22 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                 .then(response => {
                     // TODO
                     // checkout has been registered as PANDING
-                    // now we need to request payment-api to do the payment
-                    // response back and update store api with a checkout PAID state
+                    // now we need to request payment-api to do the payment and moving the checkout from PENDING to PAID
+                    console.log(/\d+$/.exec(response.data._links.checkout.href)[0]);
+                    // send checkout id
+
+                    axios({
+                        method: "POST",
+                        url: "http://localhost:8082/payment-api/pay",
+                        data: {
+                            checkoutId: /\d+$/.exec(response.data._links.checkout.href)[0]
+                            // TODO: Dummy card with simulation on correct Card
+                        }
+                    })
+                        .then(response => {
+                            //TODO: receive payment status from payment-api 
+                            console.log("Response status: " + response.status);
+                        })
                 })
                 .catch(error => {
                     //console.log(error)
