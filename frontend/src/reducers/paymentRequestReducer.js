@@ -7,6 +7,8 @@ const SENDING_PAYMENT_REQUETS = "user/SENDING_PAYMENT_REQUETS"
 const GENERATING_PAYMENT_REQUESTS = "user/GENERATING_PAYMENT_REQUESTS"
 const STOPPED_GENERATING = "user/STOPPED_GENERATING"
 
+const MAX_ELEMENT_LIST = 15
+
 const paymentRequestDTO = {
     name: "",
     price: 0.0,
@@ -40,6 +42,9 @@ export default (state = {
             }
 
         case SENDING_PAYMENT_REQUETS:
+            // Update the number of requets shown in the view only for 5 elements
+            if (state.requests.length == MAX_ELEMENT_LIST)
+                state.requests = []
             state.requests.push(action.payload)
             return {
                 ...state,

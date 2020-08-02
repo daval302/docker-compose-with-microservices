@@ -23,31 +23,40 @@ const User = ({ dispatch, user, payment }) => {
     }
 
     return (
-        <div className="card">
-            <h1>User card component</h1>
-            <p>I am use trying to buy stuff for my kitchen</p>
-            {!payment.fetching &&
-                <input type="button" value="Get Items" onClick={handleRequestItems} />
-            }
-            {payment.fetching &&
-                <h2>Loading...</h2>
-            }
-            {payment.items.length > 0 &&
-                (
-                    !payment.generating &&
-                    <input type="button" value="Start generating user actions" onClick={handleGeneratePaymentRequest} />
-                    ||
-                    <input type="button" value="Stop generating user actions" onClick={handleGeneratePaymentRequest} />
-                )
-            }
-            {/* {payment.generating &&
-                <input type="button" value="Stop generating user actions" onClick={handleGeneratePaymentRequest} />
-            } */}
-            {payment.requests.length > 0 &&
-                payment.requests.map(element =>
-                    <p>Paying {element.quantity} {element.name}</p>
-                )
-            }
+        <div>
+            <div clas="row" >
+
+                <div class="col-sm-9">
+                    {!payment.fetching &&
+                        <button type="button" class="btn btn-primary" onClick={handleRequestItems}>Get Items</button>
+                    }
+                    {payment.fetching &&
+                        <h2>Loading...</h2>
+                    }
+                    {payment.items.length > 0 &&
+                        (
+                            !payment.generating &&
+                            <button type="button" class="btn btn-secondary" onClick={handleGeneratePaymentRequest} >Start generating user actions</button>
+                            ||
+                            <button type="button" class="btn btn-danger" onClick={handleGeneratePaymentRequest} >Stop generating user actions</button>
+                        )
+                    }
+                </div>
+
+                <div class="col-sm-9">
+                    <ul class="list-group">
+                        {payment.requests.length > 0 &&
+                            payment.requests.map(element =>
+                                <li class="list-group-item">Paying {element.quantity} {element.name}</li>
+                            )
+                        }
+                    </ul>
+                </div>
+            </div>
+
+
+
+
 
         </div>
     )
