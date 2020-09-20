@@ -143,32 +143,23 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                 }
             })
                 .then(response => {
-                    // TODO
-                    // checkout has been registered as PANDING
-                    // now we need to request payment-api to do the payment and moving the checkout from PENDING to PAID
-                    console.log(/\d+$/.exec(response.data._links.checkout.href)[0]);
-                    // send checkout id
 
+                    // Get checkout Id
+                    let checkoutId = /\d+$/.exec(response.data._links.checkout.href)[0]
+
+                    // data-api save checkout as PENDING
                     axios({
                         method: "POST",
                         url: "http://localhost:8082/payment-api/pay",
-                        data: {
-                            checkoutId: /\d+$/.exec(response.data._links.checkout.href)[0]
-                            // TODO: Dummy card with simulation on correct Card
-                        }
+                        data: { checkoutId }
                     })
-                        .then(response => {
-                            //TODO: receive payment status from payment-api 
-                            console.log("Response status: " + response.status);
-                        })
+                        .then(response => console.log("Successiful payment for checkout id: ", checkoutId))
+                        .catch(error => console.log("Failed to pay for checkout id: " + checkoutId))
                 })
                 .catch(error => {
-                    //console.log(error)
+                    console.log(error)
                 })
         })
-
-        // TODO: axios payment request to pay-api
-
     }, 1000);
 
     // Notify User component: sending requests every seconds
