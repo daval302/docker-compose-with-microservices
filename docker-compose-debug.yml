@@ -10,6 +10,15 @@ services:
       - "8081:8080"
     command: ["/app/wait-for-it.sh", "db:3306", "--", "java", "-jar", "/app/build/libs/data-api-1.0.jar"]
 
+  frontend:
+    build:
+      context: .
+      dockerfile: $PWD/Dockerfile_frontend
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    command: ["npm", "start"]
+
   payment-api:
     build:
       context: .

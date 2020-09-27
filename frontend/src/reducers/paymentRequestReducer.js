@@ -1,5 +1,6 @@
 import axios from "axios"
 import { generateNPaymentRquests } from '../utils/helpers'
+import {PAYMENT_API_URL, DATA_API_URL} from '../utils/endpoints'
 
 const REQUEST_ITEMS = "user/REQUEST_ITEMS"
 const RECEIVED_ITEMS = "user/RECEIVED_ITEMS"
@@ -102,7 +103,7 @@ export const getItems = () => (dispatch, getState) => {
 
     return axios({
         method: 'GET',
-        url: "http://localhost:8081/items"
+        url: DATA_API_URL + "/items"
     })
         .then(response => {
             let items = response.data._embedded.items
@@ -134,7 +135,7 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
             dispatch(sendingPaymentRequests(elem))
             axios({
                 method: "POST",
-                url: "http://localhost:8081/checkouts",
+                url: DATA_API_URL + "/checkouts",
                 data: {
                     itemid: elem.id,
                     quantity: elem.quantity,
@@ -150,7 +151,7 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                     // data-api save checkout as PENDING
                     axios({
                         method: "POST",
-                        url: "http://localhost:8082/payment-api/pay",
+                        url:  PAYMENT_API_URL + "/payment-api/pay",
                         data: { checkoutId }
                     })
                         .then(response => console.log("Successiful payment for checkout id: ", checkoutId))
