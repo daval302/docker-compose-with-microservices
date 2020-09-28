@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import './User.css'
 import { getItems, startGeneratingUserActions, stopGenerating } from '../reducers/paymentRequestReducer'
 
-const User = ({ dispatch, user, payment }) => {
+const User = ({ dispatch, payment }) => {
 
     const handleRequestItems = e => {
         e.preventDefault();
-        // Request User items
         dispatch(getItems())
-        // TODO("Enable Logging")
         console.log("Requested items")
     }
 
@@ -53,16 +51,11 @@ const User = ({ dispatch, user, payment }) => {
                     </ul>
                 </div>
             </div>
-
-
-
-
-
         </div>
     )
 }
 
 export default connect(state => {
-    const { user, payment } = state
-    return { user, payment }
+    const { payment } = state
+    return { payment }
 })(User)

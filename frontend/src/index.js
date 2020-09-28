@@ -3,23 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-import $ from 'jquery';
-import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from "react-redux"
 import { createStore, applyMiddleware, compose } from "redux";
 import { combineReducers } from "redux";
 import thunk from 'redux-thunk';
-import userReducer from './reducers/userReducer'
 import paymentRequestReducer from './reducers/paymentRequestReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// SOTRE
 const store =  createStore(
     combineReducers({ 
-      user: userReducer,
       payment: paymentRequestReducer
     }),
     composeEnhancers(
@@ -27,7 +22,6 @@ const store =  createStore(
     )
 );
 
-// RENDER
 ReactDOM.render(
     <Provider store={store}>
         <App />

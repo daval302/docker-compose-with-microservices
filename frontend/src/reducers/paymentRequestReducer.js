@@ -43,7 +43,7 @@ export default (state = {
             }
 
         case SENDING_PAYMENT_REQUETS:
-            // Update the number of requets shown in the view only for 5 elements
+            // Update the number of requests shown in the view only for 5 elements
             if (state.requests.length == MAX_ELEMENT_LIST)
                 state.requests = []
             state.requests.push(action.payload)
@@ -154,7 +154,7 @@ export const startGeneratingUserActions = () => (dispatch, getState) => {
                         url:  PAYMENT_API_URL + "/payment-api/pay",
                         data: { checkoutId }
                     })
-                        .then(response => console.log("Successiful payment for checkout id: ", checkoutId))
+                        .then(response => console.log("Successful payment for checkout id: ", checkoutId))
                         .catch(error => console.log("Failed to pay for checkout id: " + checkoutId))
                 })
                 .catch(error => {
