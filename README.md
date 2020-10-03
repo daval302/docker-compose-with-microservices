@@ -18,7 +18,7 @@ Integrate kafka between more REST APIs to simulate node downtime, making the ove
 docker-compose build
 docker-compose up
 ```
-Start generating user actions in the React app on `http:localhost:3000`
+Start generating user actions using the React app on `http://localhost:3000`
 Note: look at javascript console logs to see interactions with **payment-api** and **data-api**
 
 DONE !!
