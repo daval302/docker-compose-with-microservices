@@ -29,8 +29,9 @@ Once you fed up of it, just run
 docker-compose down
 ```
 
-### NOTE
-For debugging purpose, use the following to run the databse
+### Utility
+
+If you do not want to run the full compositions of container and see changes straight away without building again all the images,  you can run the following database container, change the `application.yml` file accordly for the right datasource (localhost), ports and run separately the APIs.
 
 ```
 docker run  --env MYSQL_ROOT_PASSWORD=pass -v $PWD/init:/docker-entrypoint-initdb.d -p 3306:3306 mysql
