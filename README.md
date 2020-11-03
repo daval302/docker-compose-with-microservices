@@ -29,6 +29,8 @@ Once you fed up of it, just run
 docker-compose down
 ```
 
+Note: if you stop containers drastically as CTRL+C it would probably have DB unchanged next time you bring everything up again.
+
 ### Utility
 
 If you do not want to run the full compositions of container and see changes straight away without building again all the images,  you can run the following database container, change the `application.yml` file accordly for the right datasource (localhost), ports and run separately the APIs.
