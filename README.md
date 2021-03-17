@@ -16,12 +16,13 @@ Integrate kafka between more REST APIs to simulate node downtime, making the ove
 
 ```bash
 docker-compose build
-docker-compose up
+docker-compose up -d
 ```
-Start generating user actions using the React app on `http://localhost:3000`
-Note: look at javascript console logs to see interactions with **payment-api** and **data-api**
+Start generating user actions using the React app on http://localhost:3000 and look at javascript console logs to see interactions with **payment-api** and **data-api**
 
 DONE !!
+
+Check the *API browser for the hal+json media type* at http://localhost:8081 and explore the data in the database.
 
 Once you fed up of it, just run
 
